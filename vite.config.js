@@ -14,7 +14,7 @@ export default defineConfig({
     assetsDir: "web/pangeaco/osp/assets/",
     outDir: "dist"
   },
-  base: '/',
+  base: '/web/pangeaco/osp/map-free/',
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
