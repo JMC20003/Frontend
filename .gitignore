@@ -1,0 +1,17 @@
+# Dependencias
+node_modules/
+venv/
+__pycache__/
+
+# Archivos temporales
+*.log
+*.env
+*.pyc
+
+# Builds
+dist/
+build/
+
+# IDEs
+.vscode/
+.idea/

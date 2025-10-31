@@ -1,0 +1,35 @@
+{
+    "version": 8,
+    "name": "googleHybrid",
+    "metadata": {},
+    "center": [
+      1.537786,
+      41.837539
+    ],
+    "zoom": 16,
+    "bearing": 0,
+    "pitch": 0,    
+    "sources": {
+      "googleHybrid": {
+        "type": "raster",
+        "tiles": [
+          "https://geosolution.ddns.net/api/v1/proxy/google?s=mt0&lyrs=y&x={x}&y={y}&z={z}",
+          "https://geosolution.ddns.net/api/v1/proxy/google?s=mt1&lyrs=y&x={x}&y={y}&z={z}",
+          "https://geosolution.ddns.net/api/v1/proxy/google?s=mt2&lyrs=y&x={x}&y={y}&z={z}",
+          "https://geosolution.ddns.net/api/v1/proxy/google?s=mt3&lyrs=y&x={x}&y={y}&z={z}"
+        ],
+        "tileSize": 256,
+        "maxzoom": 22
+        }      
+    },
+    "glyphs": "https://tiles.basemaps.cartocdn.com/fonts/{fontstack}/{range}.pbf",
+    "layers": [
+        {
+            "id": "googleHybrid",
+            "type": "raster",
+            "source": "googleHybrid"
+        }
+    ],
+    "id": "googleHybrid"
+  }
+  

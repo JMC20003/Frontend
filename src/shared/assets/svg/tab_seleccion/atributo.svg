@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 200 200"
+   width="200"
+   height="200"
+   version="1.1"
+   id="svg24"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs24" />
+  <!-- Tabla de propiedades -->
+  <!-- Lupa pequeña en parte inferior derecha -->
+  <g
+     id="g25"
+     transform="matrix(1.7511521,0,0,1.7511521,-79.930878,-75.552998)">
+    <g
+       id="g20">
+      <!-- Contenedor de la tabla redondeado -->
+      <rect
+         x="50"
+         y="50"
+         width="100"
+         height="90"
+         fill="none"
+         stroke="#3b82f6"
+         stroke-width="3"
+         rx="8"
+         id="rect1" />
+      <!-- Encabezado de la tabla -->
+      <rect
+         x="50"
+         y="50"
+         width="100"
+         height="25"
+         fill="#3b82f6"
+         opacity="0.2"
+         rx="8"
+         id="rect2" />
+      <line
+         x1="50"
+         y1="75"
+         x2="150"
+         y2="75"
+         stroke="#3b82f6"
+         stroke-width="3"
+         id="line2" />
+      <!-- Línea divisoria vertical -->
+      <line
+         x1="100"
+         y1="50"
+         x2="100"
+         y2="140"
+         stroke="#3b82f6"
+         stroke-width="2"
+         opacity="0.5"
+         id="line3" />
+      <!-- Filas de datos -->
+      <line
+         x1="50"
+         y1="95"
+         x2="150"
+         y2="95"
+         stroke="#10b981"
+         stroke-width="2"
+         id="line4" />
+      <line
+         x1="50"
+         y1="115"
+         x2="150"
+         y2="115"
+         stroke="#10b981"
+         stroke-width="2"
+         id="line5" />
+      <!-- Iconos de propiedades (puntos representando datos) -->
+      <circle
+         cx="65"
+         cy="85"
+         r="2"
+         fill="#3b82f6"
+         id="circle5" />
+      <circle
+         cx="75"
+         cy="85"
+         r="2"
+         fill="#3b82f6"
+         id="circle6" />
+      <circle
+         cx="85"
+         cy="85"
+         r="2"
+         fill="#3b82f6"
+         id="circle7" />
+      <circle
+         cx="115"
+         cy="85"
+         r="2"
+         fill="#10b981"
+         id="circle8" />
+      <circle
+         cx="125"
+         cy="85"
+         r="2"
+         fill="#10b981"
+         id="circle9" />
+      <circle
+         cx="135"
+         cy="85"
+         r="2"
+         fill="#10b981"
+         id="circle10" />
+      <circle
+         cx="65"
+         cy="105"
+         r="2"
+         fill="#3b82f6"
+         id="circle11" />
+      <circle
+         cx="75"
+         cy="105"
+         r="2"
+         fill="#3b82f6"
+         id="circle12" />
+      <circle
+         cx="85"
+         cy="105"
+         r="2"
+         fill="#3b82f6"
+         id="circle13" />
+      <circle
+         cx="115"
+         cy="105"
+         r="2"
+         fill="#10b981"
+         id="circle14" />
+      <circle
+         cx="125"
+         cy="105"
+         r="2"
+         fill="#10b981"
+         id="circle15" />
+      <circle
+         cx="65"
+         cy="125"
+         r="2"
+         fill="#3b82f6"
+         id="circle16" />
+      <circle
+         cx="75"
+         cy="125"
+         r="2"
+         fill="#3b82f6"
+         id="circle17" />
+      <circle
+         cx="115"
+         cy="125"
+         r="2"
+         fill="#10b981"
+         id="circle18" />
+      <circle
+         cx="125"
+         cy="125"
+         r="2"
+         fill="#10b981"
+         id="circle19" />
+      <circle
+         cx="135"
+         cy="125"
+         r="2"
+         fill="#10b981"
+         id="circle20" />
+    </g>
+    <g
+       transform="translate(120,115)"
+       id="g24">
+      <!-- Sombra de la lupa -->
+      <circle
+         cx="17"
+         cy="17"
+         r="15"
+         fill="#000000"
+         opacity="0.1"
+         id="circle21" />
+      <!-- Círculo de la lupa -->
+      <circle
+         cx="15"
+         cy="15"
+         r="13"
+         fill="#ffffff"
+         stroke="#3b82f6"
+         stroke-width="3"
+         id="circle22" />
+      <!-- Mango de la lupa -->
+      <line
+         x1="24"
+         y1="24"
+         x2="35"
+         y2="35"
+         stroke="#3b82f6"
+         stroke-width="4"
+         stroke-linecap="round"
+         id="line22" />
+      <!-- Símbolo dentro de la lupa (igual signo) -->
+      <line
+         x1="10"
+         y1="12"
+         x2="20"
+         y2="12"
+         stroke="#10b981"
+         stroke-width="2"
+         stroke-linecap="round"
+         id="line23" />
+      <line
+         x1="10"
+         y1="18"
+         x2="20"
+         y2="18"
+         stroke="#10b981"
+         stroke-width="2"
+         stroke-linecap="round"
+         id="line24" />
+    </g>
+  </g>
+</svg>

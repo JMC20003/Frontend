@@ -1,0 +1,60 @@
+.maplibregl-popup-close-button {
+  font-size: 18px !important; /* Aumenta el tamaño */
+  color: red !important; /* Cambia el color */
+  font-weight: bold; /* Hace la "X" más visible */
+}
+
+.mapboxgl-ctrl-group:not(:empty){
+  box-shadow: none !important;
+}
+.mapboxgl-ctrl-group button+button{
+  border: none;
+}
+
+@media (max-width: 770px) {
+  .maplibregl-ctrl-top-left,
+  .mapboxgl-ctrl-group{
+    background-color: transparent;
+    visibility: hidden;
+  }
+}
+.mapboxgl-ctrl-group,
+.maplibregl-ctrl-top-left{
+    position: absolute;
+    display: flex;
+    justify-content: space-between;
+    top: 60px !important;
+    left: 9px;
+    z-index: 998;
+    box-shadow: none;
+}
+.maplibregl-ctrl-bottom-left{
+    position: absolute;
+    display: flex;
+    justify-content: space-between;
+    bottom: 5px !important;
+    left: 9px;
+    z-index: 998;
+    box-shadow: none;
+}
+.maplibregl-ctrl-scale{
+    background-color: white !important;
+    padding: 2px 5px !important;
+    border-radius: 4px !important;
+    font-size: 12px !important;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.3) !important;
+    border-color: purple !important;
+}
+.maplibregl-ctrl-group {
+  position: relative !important;
+  top: 80px !important;
+  left: 0px ; /* Valor por defecto */
+}
+
+.maplibregl-ctrl-group-left-360 {
+  left: 345px !important;
+}
+
+.maplibregl-ctrl-scale-bottom-250{
+    bottom: 250px !important;
+}

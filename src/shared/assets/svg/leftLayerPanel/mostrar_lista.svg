@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+  <!-- contorno suave -->
+  <rect x="9" y="9" width="22" height="16" rx="2" fill="none" stroke="#3B82F6" stroke-width="1.5"/>
+  <!-- única línea que insinúa filas y columnas -->
+  <path d="M9 17h22M17 9v16" stroke="#3B82F6" stroke-width="1.5"/>
+</svg>

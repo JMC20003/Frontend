@@ -1,0 +1,11 @@
+version: '3.3'
+
+services:
+  pangeaco-ops-geosolution:
+    container_name: pangeaco-ops-geosolution
+    image: pangeaco-ops-geosolution
+    build: .
+    ports:
+      - "3033:3033"
+    env_file:
+      - .env

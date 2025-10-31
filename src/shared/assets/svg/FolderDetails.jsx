@@ -1,0 +1,18 @@
+export function FolderDetails(attrs) {
+    return (
+      <svg
+        id="icon"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 32 32"
+        {...attrs}
+      >
+        <rect fill="currentColor" x="16" y="20" width="14" height="2" />
+        <rect fill="currentColor" x="16" y="24" width="14" height="2" />
+        <rect fill="currentColor" x="16" y="28" width="7" height="2" />
+        <path
+          fill="currentColor"
+          d="M14,26H4V6h7.17l3.42,3.41.58.59H28v8h2V10a2,2,0,0,0-2-2H16L12.59,4.59A2,2,0,0,0,11.17,4H4A2,2,0,0,0,2,6V26a2,2,0,0,0,2,2H14Z"
+        />
+      </svg>
+    );
+}
