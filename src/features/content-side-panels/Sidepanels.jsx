@@ -73,7 +73,6 @@ export const Sidepanels = () => {
     } catch (error) {
       console.error("Error al guardar el estilo de la geometría:", error);
       toast.error("Error al guardar el estilo.");
-      console.log('Sidepanels: handleSaveStyle - Error toast shown.');
     }
   };
 
@@ -94,7 +93,7 @@ export const Sidepanels = () => {
           'line-width': newTempStyle.lineWidth,
           'circle-radius': newTempStyle.circleRadius,
           'line-dasharray': newTempStyle.lineDasharray,
-          // Añadir otras propiedades de estilo aquí
+          'fill-opacity': 1
         }
       }));
     }
@@ -109,7 +108,6 @@ export const Sidepanels = () => {
     { label: "Cancelar", onClick: handleCancelStyle, className: "bg-red-500 hover:bg-red-600 text-white" },
   ] : [];
 
-  console.log('Sidepanels: rightPanelFooterButtons:', rightPanelFooterButtons);
 
   return (
     <>

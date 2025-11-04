@@ -13,8 +13,6 @@ export const createFeatureCollection = async (featureCollection) => {
 
 export const getFeatureById = async(id) => {
   const response = await http.get(`/feature/${id}`);
-  console.log(`API: getFeatureById(${id}) response:`, response);
-  console.log(`API: getFeatureById(${id}) response.data:`, response.data);
   return response.data;
 };
 

@@ -11,9 +11,7 @@ export const RightPanel = ({ title = "Panel", tabs = [], footerButtons = [], han
   const { activeTab, setActiveTab, currentTab } = usePanelTabs(tabs)
   const [width, setWidth] = useState(350)
   const [isDragging, setIsDragging] = useState(false)
-
-  console.log('RightPanel: footerButtons received:', footerButtons);
-
+  
   const handleClose = () => {
     setOpenPanel(prev => ({ ...prev, right: false }))
   }

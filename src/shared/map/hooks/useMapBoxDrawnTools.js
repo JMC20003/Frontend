@@ -5,7 +5,6 @@ import {
   setSelectedFeature,
   clearSelectedFeature,
 } from "@/shared/redux/features/featureSlice";
-import { setActiveDrawMode } from "@/shared/redux/features/mapSlice";
 import { generateWFSTransaction, sendTransaction } from "./useWFSTransactions";
 
 export const useDrawingTool = (drawRef) => {
@@ -33,29 +32,19 @@ export const useDrawingTool = (drawRef) => {
       toast.error("Selecciona primero un feature.");
       return;
     }
-
-    // ✅ CAMBIO: Acceder al draw correctamente
-    const draw = drawRef?.current || drawRef;
-
-    if (!draw) {
+    if (!drawRef?.current) {
       toast.error("Mapbox Draw no está listo.");
       return;
     }
 
     try {
       setIsEditing(true);
+      const draw = drawRef.current;
 
       draw.deleteAll();
       draw.add(selectedFeature);
 
       const featureId = selectedFeature.id || selectedFeature.properties?.id;
-
-      // ✅ Activar modo edición directa
-      const addedIds = draw.getAll().features.map(f => f.id);
-      if (addedIds.length > 0) {
-        draw.changeMode('direct_select', { featureId: addedIds[0] });
-      }
-
       toast.success(`Editando feature ID: ${featureId}`);
     } catch (err) {
       console.error("Error al preparar feature para edición:", err);
@@ -63,15 +52,14 @@ export const useDrawingTool = (drawRef) => {
     }
   }, [selectedFeature, drawRef]);
 
-  // Guardar cambios (insert/update)
+  // ✅ Guardar cambios (insert/update)
   const handleSave = useCallback(async () => {
-    const draw = drawRef?.current || drawRef;
-
-    if (!draw) {
+    if (!drawRef?.current) {
       toast.error("Mapbox Draw no está disponible.");
       return;
     }
 
+    const draw = drawRef.current;
     const drawn = draw.getAll();
 
     if (!drawn.features.length) {
@@ -80,121 +68,54 @@ export const useDrawingTool = (drawRef) => {
     }
 
     const feature = drawn.features[0];
-
-    // Agregar el ID del feature original si estamos editando
-    if (isEditing && selectedFeature) {
-      feature.id = selectedFeature.id || selectedFeature.properties?.id;
-      feature.properties = {
-        ...selectedFeature.properties,
-        ...feature.properties
-      };
-    }
-
     const xml = generateWFSTransaction(feature, isEditing ? "update" : "insert");
 
     try {
       const response = await sendTransaction(xml);
-      console.log("📡 Respues ta GeoServer:", response);
-
-      // Verificar si la respuesta contiene errores
-      if (response.includes('Exception') || response.includes('Error')) {
-        throw new Error('GeoServer devolvió un error');
-      }
-
-      toast.success(isEditing ? "Feature actualizado correctamente." : "Feature insertado correctamente.");
-
-      const map = draw?.map; // acceder al mapa
-      draw.add(feature)
-      if (map?.getSource("barrios-layer")) map.getSource("barrios-layer").reload();
+      console.log("📡 Respuesta GeoServer:", response);
+      toast.success(isEditing ? "Feature actualizado." : "Feature insertado.");
 
       draw.deleteAll();
       setIsEditing(false);
       dispatch(clearSelectedFeature());
-
-      // Cambiar a modo selección
-      draw.changeMode('simple_select');
     } catch (err) {
       console.error("Error al enviar transacción WFS-T:", err);
       toast.error("Error al guardar cambios en GeoServer.");
     }
-  }, [drawRef, isEditing, selectedFeature, dispatch]);
+  }, [drawRef, isEditing, dispatch]);
 
-  // Eliminar feature
+  // ✅ Eliminar feature
   const handleDelete = useCallback(async () => {
-
     if (!selectedFeature) {
       toast.error("Selecciona un feature antes de eliminar.");
       return;
     }
-
-    const draw = drawRef?.current || drawRef;
 
     try {
       const xml = generateWFSTransaction(selectedFeature, "delete");
       const response = await sendTransaction(xml);
       console.log("🗑️ Respuesta de eliminación:", response);
 
-      //  Verificar si la respuesta contiene errores
-      if (response.includes('Exception') || response.includes('Error')) {
-        throw new Error('GeoServer devolvió un error');
-      }
-
       toast.success("Feature eliminado correctamente.");
-      const map = draw?.map; // acceder al mapa
-      if (map?.getSource("barrios-layer")) map.getSource("barrios-layer").reload();
-      // Limpiar el draw
-      if (draw) {
-        draw.deleteAll();
-        draw.changeMode('simple_select');
-      }
       dispatch(clearSelectedFeature());
-
     } catch (err) {
       console.error("Error al eliminar feature:", err);
       toast.error("No se pudo eliminar el feature.");
     }
-  }, [selectedFeature, drawRef, dispatch]);
+  }, [selectedFeature, dispatch]);
 
-  //  Limpieza automática del estado cuando se elimina o guarda
+  // ✅ Limpieza automática del estado cuando se elimina o guarda
   useEffect(() => {
     if (!selectedFeature && isEditing) {
       setIsEditing(false);
     }
   }, [selectedFeature, isEditing]);
 
-
-  const toolKeyToDrawMode = {
-    poligono: "draw_polygon",
-    linea: "draw_line_string",
-    punto: "draw_point",
-    circulo: "draw_circle",
-    extension: "draw_rectangle",
-    lazo: "draw_freehand",
-  };
-
-  const handleToolSelection = useCallback(
-    (toolKey) => {
-      const draw = drawRef?.current || drawRef;
-      if (!draw) return;
-
-      const drawMode = toolKeyToDrawMode[toolKey] || "simple_select";
-      draw.changeMode(drawMode);
-
-      dispatch(setActiveDrawMode(drawMode));
-
-      toast.info(
-        `Modo de dibujo: ${toolKey.charAt(0).toUpperCase() + toolKey.slice(1)}`
-      );
-    },
-    [dispatch, drawRef, toolKeyToDrawMode]
-  );
-
   return {
     handleSelectFeature,
     handleEdit,
     handleSave,
     handleDelete,
-    handleToolSelection,
     isEditing,
     selectedFeature,
   };

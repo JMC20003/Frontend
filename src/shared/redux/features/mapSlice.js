@@ -15,7 +15,6 @@ export const map_slice = createSlice({
       state.mapBoxDrawStateRef = action.payload;
     },
     setMapref: (state, action) => {
-      console.log('mapSlice: Storing mapRef payload:', action.payload);
       state.mapRef = action.payload;
     },
     setLayerData: (state, action) => {
@@ -26,12 +25,11 @@ export const map_slice = createSlice({
     },
     addLayerMetadata: (state, action) => {
       // Asegurarse de que no se añadan duplicados si ya existe por 'table' 
-      if (!state.layerData.some(layer => layer.table === action.payload.table)) {
+      if (!state.layerData.some(layer => layer.table === action.payload.table))
         state.layerData.push(action.payload);
-        console.log('mapSlice: Layer added. New layerData:', state.layerData);
-      } else {
-        console.log('mapSlice: Layer already exists, not adding.', action.payload.table);
-      }
+    },
+    removeLayerMetadata: (state, action) => {
+      state.layerData = state.layerData.filter(layer => layer.table !== action.payload.table);
     },
   }
 });
@@ -42,7 +40,8 @@ export const {
   setMapref,
   setLayerData,
   setActiveDrawMode,
-  addLayerMetadata
+  addLayerMetadata,
+  removeLayerMetadata
 } = map_slice.actions;
 
 export default map_slice.reducer;

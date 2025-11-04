@@ -14,10 +14,19 @@ export default defineConfig({
     assetsDir: "web/pangeaco/osp/assets/",
     outDir: "dist"
   },
-  base: '/web/pangeaco/osp/map-free/',
+  base: '/',
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
+    },
+  },
+  server: {
+    proxy: {
+      '/geoserver': {
+        target:'http://localhost:8080', // tu GeoServer dentro de Docker
+        changeOrigin: true,
+        secure: false,
+      },
     },
   },
 });

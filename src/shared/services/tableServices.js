@@ -1,5 +1,5 @@
 import { http } from "./api";
-
+import axios from "axios";
 
 export const upDateTable = async(layerID,globalId,editeData, schema, bbox)=>{
 
@@ -21,17 +21,20 @@ export const upDateTable = async(layerID,globalId,editeData, schema, bbox)=>{
     }
 }
 
-export const getAllTables = async() => {
-    try {
-        return await http.get(`/table/get-all`, {
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-    } catch (error) {
-        console.log(error);
+export const getAllTables = async () => {
+  try {
+    const response = await axios.get(`${import.meta.env.VITE_BACKEND_API}/table/get-all`);
+    if (response.data && response.data.data) {
+      return response.data.data;
+    } else {
+      console.warn("getAllTables: no data received");
+      return [];
     }
-}
+  } catch (error) {
+    console.error("Error fetching tables:", error.message);
+    return []; // ← devuelve arreglo vacío para evitar romper el render
+  }
+};
 
 
 export const createTableData = async (tableName, schema,bbox,pk, data) => {

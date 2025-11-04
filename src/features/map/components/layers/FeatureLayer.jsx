@@ -3,27 +3,24 @@ import { useSelector } from "react-redux";
 import { useMemo } from "react";
 
 export const FeatureLayer = () => {
-  const { features, selectedFeature } = useSelector((state) => state.featureReducer);
-
-  if (!features || !features.features || features.features.length === 0) {
-    return null;
-  }
+  const { features, selectedFeature } = useSelector(
+    (state) => state.featureReducer
+  );
 
   const geojson = features;
 
-  // Extraer todos los patrones únicos de line-dasharray
+  // useMemo siempre se llama
   const uniqueDashPatterns = useMemo(() => {
-    const patterns = new Map();
+    const featuresArray = geojson?.features;
+    if (!featuresArray || !Array.isArray(featuresArray)) return [];
 
-    geojson.features.forEach((feature, index) => {
+    const patterns = new Map();
+    featuresArray.forEach((feature, index) => {
       const dashArray = feature.properties?.['line-dasharray'];
       if (dashArray && Array.isArray(dashArray) && dashArray.length > 0) {
         const key = JSON.stringify(dashArray);
         if (!patterns.has(key)) {
-          patterns.set(key, {
-            pattern: dashArray,
-            id: `dash-${index}` // ID único
-          });
+          patterns.set(key, { pattern: dashArray, id: `dash-${index}` });
         }
       }
     });
@@ -31,111 +28,129 @@ export const FeatureLayer = () => {
     return Array.from(patterns.values());
   }, [geojson]);
 
-  return (
-    <>
-      <Source id="feature-source" type="geojson" data={geojson}>
-        {/* Fill layer para polígonos */}
-        <Layer
-          id="feature-fill"
-          type="fill"
-          filter={['==', '$type', 'Polygon']}
-          paint={{
-            'fill-color': ['coalesce', ['get', 'fill-color'], '#007cbf'],
-            'fill-opacity': ['coalesce', ['get', 'fill-opacity'], 0.5],
-          }}
-        />
+  // ahora sí, si no hay features, retornamos null
+  if (!features || !features.features || features.features.length === 0) {
+    return null;
+  }
 
-        {/* Line layer - solid (sin dasharray) */}
-        <Layer
-          id="feature-lines-solid"
-          type="line"
-          filter={[
-            'any',
-            ['!', ['has', 'line-dasharray']],
-            ['==', ['get', 'line-dasharray'], null]
-          ]}
-          paint={{
-            'line-color': ['coalesce', ['get', 'line-color'], '#007cbf'],
-            'line-width': ['coalesce', ['get', 'line-width'], 2],
-          }}
-        />
-
-        {/* Generar un layer por cada patrón de dasharray único */}
-        {uniqueDashPatterns.map(({ pattern, id }) => (
+  
+  try {
+    return (
+      <>
+        {/* 🔹 Fuente principal (tus features desde backend) */}
+        <Source id="feature-source" type="geojson" data={geojson}>
           <Layer
-            key={`feature-lines-${id}`}
-            id={`feature-lines-${id}`}
+            id="feature-fill"
+            type="fill"
+            filter={["==", "$type", "Polygon"]}
+            layout={{}}
+            paint={{
+              "fill-color": ["coalesce", ["get", "fill-color"], "#007cbf"],
+              "fill-opacity": ["coalesce", ["get", "fill-opacity"], 0.5],
+            }}
+          />
+
+          <Layer
+            id="feature-lines-solid"
             type="line"
             filter={[
-              'all',
-              ['has', 'line-dasharray'],
-              // Comparar cada elemento del array
-              ...pattern.map((value, idx) => [
-                '==',
-                ['at', idx, ['get', 'line-dasharray']],
-                value
-              ])
+              "any",
+              ["!", ["has", "line-dasharray"]],
+              ["==", ["get", "line-dasharray"], null],
             ]}
+            layout={{}}
             paint={{
-              'line-color': ['coalesce', ['get', 'line-color'], '#007cbf'],
-              'line-width': ['coalesce', ['get', 'line-width'], 2],
-              'line-dasharray': pattern
-            }}
-          />
-        ))}
-
-        {/* Point layer */}
-        <Layer
-          id="feature-points"
-          type="circle"
-          paint={{
-            'circle-radius': ['coalesce', ['get', 'circle-radius'], 4],
-            'circle-color': ['coalesce', ['get', 'circle-color'], '#007cbf'],
-          }}
-        />
-      </Source>
-
-      {selectedFeature && (
-        <Source
-          id="selected-backend-feature"
-          type="geojson"
-          data={{
-            type: "FeatureCollection",
-            features: [selectedFeature],
-          }}
-        >
-          <Layer
-            id="selected-backend-feature-fill"
-            type="fill"
-            filter={['==', '$type', 'Polygon']}
-            paint={{
-              'fill-color': selectedFeature.properties?.['fill-color'] ?? '#d8904dff',
-              'fill-opacity': selectedFeature.properties?.['fill-opacity'] ?? 0.7,
+              "line-color": ["coalesce", ["get", "line-color"], "#007cbf"],
+              "line-width": ["coalesce", ["get", "line-width"], 2],
             }}
           />
 
-          <Layer
-            id="selected-backend-feature-line"
-            type="line"
-            filter={['any', ['==', '$type', 'LineString'], ['==', '$type', 'Polygon']]}
-            paint={{
-              'line-color': selectedFeature.properties?.['line-color'] ?? '#d8904dff',
-              'line-width': (selectedFeature.properties?.['line-width'] ?? 2) + 3,
-              'line-dasharray': selectedFeature.properties?.['line-dasharray'] ?? [1, 0]
-            }}
-          />
+          {uniqueDashPatterns.map(({ pattern, id }) => (
+            <Layer
+              key={id}
+              id={`feature-lines-${id}`}
+              type="line"
+              filter={[
+                "all",
+                ["has", "line-dasharray"],
+                ...pattern.map((value, idx) => [
+                  "==",
+                  ["at", idx, ["get", "line-dasharray"]],
+                  value,
+                ]),
+              ]}
+              layout={{}}
+              paint={{
+                "line-color": ["coalesce", ["get", "line-color"], "#007cbf"],
+                "line-width": ["coalesce", ["get", "line-width"], 2],
+                "line-dasharray": pattern,
+              }}
+            />
+          ))}
 
           <Layer
-            id="selected-backend-feature-point"
+            id="feature-points"
             type="circle"
-            filter={['==', '$type', 'Point']}
+            filter={["==", "$type", "Point"]}
+            layout={{}}
             paint={{
-              'circle-radius': (selectedFeature.properties?.['circle-radius'] ?? 4) + 2,
-              'circle-color': selectedFeature.properties?.['circle-color'] ?? '#d8904dff',
+              "circle-radius": ["coalesce", ["get", "circle-radius"], 4],
+              "circle-color": ["coalesce", ["get", "circle-color"], "#007cbf"],
             }}
           />
         </Source>
-      )}
-    </>
-  );
-}
+
+        {/* 🔹 Capa destacada (feature seleccionada) */}
+        {selectedFeature && (
+          <Source
+            id="selected-feature-source"
+            type="geojson"
+            data={{
+              type: "FeatureCollection",
+              features: [selectedFeature],
+            }}
+          >
+            <Layer
+              id="selected-feature-fill"
+              type="fill"
+              filter={["==", "$type", "Polygon"]}
+              layout={{}}
+              paint={{
+                "fill-color": "#d8904dff",
+                "fill-opacity": 0,
+              }}
+            />
+
+            <Layer
+              id="selected-feature-line"
+              type="line"
+              filter={[
+                "any",
+                ["==", "$type", "LineString"],
+                ["==", "$type", "Polygon"],
+              ]}
+              layout={{}}
+              paint={{
+                "line-color":"#d8904dff",
+                "line-width": 2,
+              }}
+            />
+
+            <Layer
+              id="selected-feature-point"
+              type="circle"
+              layout={{}}
+              paint={{
+                "circle-radius": 5,
+                "circle-color": "#d8904dff",
+              }}
+            />
+          </Source>
+        )}
+      </>
+    );
+  } catch (error) {
+    console.error("Error al renderizar capas:", error);
+    return null;
+  }
+};

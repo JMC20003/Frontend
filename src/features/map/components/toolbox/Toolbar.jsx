@@ -63,7 +63,6 @@ const DrawControl = forwardRef((props, ref) => {
   useEffect(() => {
       if (activeDrawMode && draw) {
         draw.changeMode(activeDrawMode);
-        console.log('Cambiando modo de dibujo →', activeDrawMode);
       }
   }, [activeDrawMode, draw]);
 

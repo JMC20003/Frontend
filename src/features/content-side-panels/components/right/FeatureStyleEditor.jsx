@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { SketchPicker } from 'react-color'; // Assuming you have react-color installed
 import { CompactPicker } from 'react-color';
 
 export const FeatureStyleEditor = ({ selectedFeature, onStyleChange }) => {
@@ -41,9 +40,9 @@ export const FeatureStyleEditor = ({ selectedFeature, onStyleChange }) => {
     Polygon: [
       { label: "Color de Relleno", prop: "fillColor", type: "color" },
       { label: "Color de Línea", prop: "lineColor", type: "color" },
-      { label: "Color de Punto", prop: "circleColor", type: "color" },
+      //{ label: "Color de Punto", prop: "circleColor", type: "color" },
       { label: "Ancho de Línea", prop: "lineWidth", type: "number" },
-      { label: "Tamaño de Punto", prop: "circleRadius", type: "number" },
+      //{ label: "Tamaño de Punto", prop: "circleRadius", type: "number" },
 
     ],
     LineString: [

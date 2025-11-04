@@ -85,7 +85,6 @@ const featuresSlice = createSlice({
   initialState,
   reducers: {
     setSelectedFeature: (state, action) => {
-      console.log('featureSlice: setSelectedFeature payload:', action.payload);
       state.selectedFeature = action.payload;
     },
     clearSelectedFeature: (state) => {

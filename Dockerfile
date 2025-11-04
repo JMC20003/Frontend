@@ -21,5 +21,5 @@ COPY --from=build /usr/src/pangeaco-ops-geosolution/dist /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Exponemos el puerto y ejecutamos Nginx
-EXPOSE 3033
+EXPOSE 4033
 CMD ["nginx", "-g", "daemon off;"]

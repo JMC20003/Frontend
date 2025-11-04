@@ -6,6 +6,6 @@ services:
     image: pangeaco-ops-geosolution
     build: .
     ports:
-      - "3033:3033"
+      - "4033:4033"
     env_file:
       - .env
