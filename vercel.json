@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/web/pangeaco/osp/map-free/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
